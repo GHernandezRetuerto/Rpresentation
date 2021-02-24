@@ -8,40 +8,37 @@
 #
 
 library(shiny)
+library(tidyverse)
+
+list_choices =  unique(msleep$vore)[!is.na(unique(msleep$vore))]
+names(list_choices) = paste(unique(msleep$vore)[!is.na(unique(msleep$vore))],"vore",sep="")
+col_scale <- scale_colour_discrete(limits = unique(msleep$vore))
 
 # Define UI for application that draws a histogram
-ui <- fluidPage(
+ui = fluidPage(
 
     # Application title
-    titlePanel("Old Faithful Geyser Data"),
+    titlePanel("My own title"),
+    
+    includeMarkdown('references.md'),
+    
+    h3("Plots"),
+    selectInput("select", label = h3("Plot by type of alimentation"), 
+                choices = list_choices,
+                selected = 1),
+    plotOutput(outputId = "plot")
 
-    # Sidebar with a slider input for number of bins 
-    sidebarLayout(
-        sidebarPanel(
-            sliderInput("bins",
-                        "Number of bins:",
-                        min = 1,
-                        max = 50,
-                        value = 30)
-        ),
-
-        # Show a plot of the generated distribution
-        mainPanel(
-           plotOutput("distPlot")
-        )
-    )
 )
 
 # Define server logic required to draw a histogram
-server <- function(input, output) {
-
-    output$distPlot <- renderPlot({
-        # generate bins based on input$bins from ui.R
-        x    <- faithful[, 2]
-        bins <- seq(min(x), max(x), length.out = input$bins + 1)
-
-        # draw the histogram with the specified number of bins
-        hist(x, breaks = bins, col = 'darkgray', border = 'white')
+server = function(input, output) {
+    msleep2 = drop_na(msleep)
+    output$plot = renderPlot({
+        ggplot(msleep2 %>% filter(vore == input$select), aes(bodywt, sleep_total, colour = vore)) +
+            scale_x_log10() +
+            col_scale +
+            geom_point(size = 7)+
+            theme_minimal()
     })
 }
 
