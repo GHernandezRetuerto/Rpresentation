@@ -1,0 +1,68 @@
+Class presentation
+========================================================
+author: Guillermo Hernandez
+date: 24-02-2021
+autosize: true
+
+First Slide Example
+========================================================
+type: alert
+incremental: true
+Paragraph I just made.
+
+For more details on authoring R presentations please visit [this link](https://support.rstudio.com/hc/en-us/articles/200486468).
+
+1. Bullet 1
+<li class='fragment fade-out'>Bullet 2</li>
+2. Bullet 3
+- Bullt 4
+
+Slide With Code
+========================================================
+
+```{r}
+summary(cars)
+```
+***
+```{r}
+1:10
+```
+
+Slide With Latex
+========================================================
+
+$$X_2 + 3$$
+
+
+Slide With Code
+========================================================
+
+```{r include=FALSE}
+library(plotly)
+library(ggplot2)
+```
+
+```{r echo=FALSE}
+x = 1:20
+y = x**2
+data = data.frame('x'=x, 'y'=y)
+
+p = ggplot(data= data, aes(x=x, y = y))+
+  theme_minimal()+
+  geom_point()
+
+p = ggplotly(p)
+
+htmlwidgets::saveWidget(p, 'plot.html')
+```
+
+<style>
+  .p_iframe iframe{
+    width:90%;
+    height:576px;
+}
+</style>
+
+<div class="p_iframe">
+<iframe frameborder="0" seamless='seamless' scrolling=no src="plot.html"></iframe>
+</div>
