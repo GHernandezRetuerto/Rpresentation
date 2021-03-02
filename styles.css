@@ -1,0 +1,14 @@
+.Stat2Data .reveal .state-background {
+  background: black;
+} 
+
+.Stat2Data .reveal h1,
+.Stat2Data .reveal h2,
+.Stat2Data .reveal p {
+  color: white;
+}
+
+.reveal section del {
+  color: red;
+}
+ 

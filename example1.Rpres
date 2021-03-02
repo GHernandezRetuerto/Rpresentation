@@ -1,41 +1,62 @@
-Class presentation
+Presentation Example - Stat2Data
 ========================================================
 author: Guillermo Hernandez
 date: 24-02-2021
 autosize: true
+font-family: Helvetica
+css: style.css
+transition: fade
 
-First Slide Example
+Stat2Data
 ========================================================
-type: alert
+navigation: section
 incremental: true
-Paragraph I just made.
 
-For more details on authoring R presentations please visit [this link](https://support.rstudio.com/hc/en-us/articles/200486468).
+Stat2Data is a package containing a huge amount of datasets extracted from the textbook Stat2: Modeling with Regression and ANOVA.
 
-1. Bullet 1
-<li class='fragment fade-out'>Bullet 2</li>
-2. Bullet 3
-- Bullt 4
+More information can be found in [CRAN website](https://cran.r-project.org/web/packages/Stat2Data/index.html8) and in the [reference PDF](https://cran.r-project.org/web/packages/Stat2Data/Stat2Data.pdf).
 
-Slide With Code
+Some of these datasets include:
+
+1. ~~CO2SouthPole~~ (the one we are going to use)
+<li class='fragment fade-out'>Airlines</li>
+<li class='fragment fade-out'>AppleStock</li>
+
+The Dataset
 ========================================================
+
+`CO2SouthPole` contains CO2 concentration measurements (in ppm) in a scientific settlement in Antarctica. 
 
 ```{r}
-summary(cars)
+library(Stat2Data)
+
+data(CO2SouthPole)
+head(CO2SouthPole)
+```
+
+For the sake of the example, let's take the monthly data of 1988 and 1989 (only the month and the CO2 value). 
+
+
+Data from 1988/1989
+========================================================
+
+## 1988
+```{r echo = FALSE}
+data1988 = CO2SouthPole[(CO2SouthPole$Year==1988),c(2,3)]
+data1989 = CO2SouthPole[(CO2SouthPole$Year==1989),c(2,3)]
+data1988
 ```
 ***
-```{r}
-1:10
+## 1989
+```{r echo=FALSE}
+data1989
 ```
 
-Slide With Latex
+
+
+Charts
 ========================================================
-
-$$X_2 + 3$$
-
-
-Slide With Code
-========================================================
+navigation: section
 
 ```{r include=FALSE}
 library(plotly)
@@ -43,18 +64,34 @@ library(ggplot2)
 ```
 
 ```{r echo=FALSE}
-x = 1:20
-y = x**2
-data = data.frame('x'=x, 'y'=y)
+y1988 = data1988$CO2
+y1989 = data1989$CO2
 
-p = ggplot(data= data, aes(x=x, y = y))+
+df = data.frame(cbind(data1988$Month, data1988$CO2, data1989$CO2))
+colnames(df) = c('month','C88','C89')
+
+p88 = ggplot(data = df, aes(x=month, y=C88))+
   theme_minimal()+
   geom_point()
 
-p = ggplotly(p)
+#Faltan titulos, leyenda, colores, hacerlo lineas, ¿Juntarlos?
 
-htmlwidgets::saveWidget(p, 'plot.html')
+p88 = ggplotly(p88)
+p88
 ```
+***
+```{r echo=FALSE}
+p89 = ggplot(data = df, aes(x=month, y=C89))+
+  theme_minimal()+
+  geom_point()
+
+p89 = ggplotly(p89)
+p89
+```
+
+
+
+
 
 <style>
   .p_iframe iframe{
